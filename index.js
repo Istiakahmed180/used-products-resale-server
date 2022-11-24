@@ -17,6 +17,15 @@ const client = new MongoClient(uri, {
 
 async function run() {
   try {
+    const categoriesProductsCollection = client
+      .db("categoryProducts")
+      .collection("category");
+
+    app.get("/categories", async (req, res) => {
+      const query = {};
+      const result = await categoriesProductsCollection.find(query).toArray();
+      res.send(result);
+    });
   } finally {
   }
 }
