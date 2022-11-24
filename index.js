@@ -17,23 +17,26 @@ const client = new MongoClient(uri, {
 
 async function run() {
   try {
-    const categoriesProductsCollection = client
-      .db("categoryProducts")
-      .collection("category");
+    const categoriesCollection = client
+      .db("finalProjectDB")
+      .collection("laptopCategories");
+    const productsCollection = client
+      .db("finalProjectDB")
+      .collection("laptopProducts");
 
-    //   All categories
-    app.get("/categories", async (req, res) => {
+    // laptop all category
+    app.get("/category", async (req, res) => {
       const query = {};
-      const result = await categoriesProductsCollection.find(query).toArray();
+      const result = await categoriesCollection.find(query).toArray();
       res.send(result);
     });
 
-    // Categories Products id get
-    app.get("/categories/:id", async (req, res) => {
+    // categories products get
+    app.get("/category/:id", async (req, res) => {
       const id = req.params.id;
-      const query = { _id: ObjectId(id) };
-      const result = await categoriesProductsCollection.findOne(query);
-      res.send(result);
+      const filter = { category_id: ObjectId(id) };
+      const products = await productsCollection.findOne(filter);
+      res.send(products);
     });
   } finally {
   }
