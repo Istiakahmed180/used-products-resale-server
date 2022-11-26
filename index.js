@@ -26,6 +26,7 @@ async function run() {
     const bookingCollection = client
       .db("finalProjectDB")
       .collection("bookingProducts");
+    const usersCollection = client.db("finalProjectDB").collection("users");
 
     // laptop all category
     app.get("/category", async (req, res) => {
@@ -47,6 +48,13 @@ async function run() {
       const booking = req.body;
       const product = await bookingCollection.insertOne(booking);
       res.send(product);
+    });
+
+    app.get("/bookings", async (req, res) => {
+      const email = req.query.email;
+      const query = { userEmail: email };
+      const bookings = await bookingCollection.find(query).toArray();
+      res.send(bookings);
     });
   } finally {
   }
