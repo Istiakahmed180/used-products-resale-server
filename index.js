@@ -77,6 +77,13 @@ async function run() {
       res.send(bookings);
     });
 
+    app.delete("/bookings/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await bookingCollection.deleteOne(query);
+      res.send(result);
+    });
+
     app.get("/users", async (req, res) => {
       const query = {};
       const result = await usersCollection.find(query).toArray();
@@ -116,6 +123,13 @@ async function run() {
         updateDoc,
         options
       );
+      res.send(result);
+    });
+
+    app.delete("/users/:id", async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: ObjectId(id) };
+      const result = await usersCollection.deleteOne(filter);
       res.send(result);
     });
 
