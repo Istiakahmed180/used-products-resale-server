@@ -59,6 +59,13 @@ async function run() {
       res.send(products);
     });
 
+    app.post("/addproducts", async (req, res) => {
+      const product = req.body;
+      console.log(product);
+      const addProduct = await productsCollection.insertOne(product);
+      res.send(addProduct);
+    });
+
     // User Booking Product insert database
     app.post("/bookings", async (req, res) => {
       const booking = req.body;
@@ -143,7 +150,6 @@ async function run() {
         });
         return res.send({ accesToken: token });
       }
-      console.log(user);
       res.status(403).send({ accessToken: "" });
     });
   } finally {
