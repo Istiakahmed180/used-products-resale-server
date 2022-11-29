@@ -61,9 +61,14 @@ async function run() {
 
     app.post("/addproducts", async (req, res) => {
       const product = req.body;
-      console.log(product);
       const addProduct = await productsCollection.insertOne(product);
       res.send(addProduct);
+    });
+
+    app.get("/addproducts", async (req, res) => {
+      const query = {};
+      const result = await productsCollection.find(query).toArray();
+      res.send(result);
     });
 
     // User Booking Product insert database
